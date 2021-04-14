@@ -346,6 +346,7 @@ export default class DatePicker extends PureComponent<IProps, IState>{
                         curtainColor={this.props.curtainColor}
                         indicatorColor={this.props.indicatorColor}
                         selectTextColor={this.props.selectTextColor}
+                        inactiveTextColor={this.props.inactiveTextColor}
                         style={{ width: deviceWidth }}
                         pickerWrapperStyle={this.props.pickerWrapperStyle}
                         showHeader={false}

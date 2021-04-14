@@ -314,6 +314,7 @@ export default class CommonPicker extends Component<IProps, IState> {
                 <View style={styles.pickerWheel} key={index}>
                     <Picker
                         curtainColor={this.props.curtainColor}
+                        inactiveTextColor={this.props.inactiveTextColor}
                         indicatorColor={this.props.indicatorColor}
                         selectTextColor={this.props.selectTextColor}
                         selectedValue={this.state.wheelSelectedIndexes[index]}
@@ -325,6 +326,7 @@ export default class CommonPicker extends Component<IProps, IState> {
                         {item.map((value, itemIndex) => (
                             <PickerItem
                                 curtainColor={this.props.curtainColor}
+                                inactiveTextColor={this.props.inactiveTextColor}
                                 indicatorColor={this.props.indicatorColor}
                                 selectTextColor={this.props.selectTextColor}
                                 key={itemIndex}
@@ -349,6 +351,7 @@ export default class CommonPicker extends Component<IProps, IState> {
                                     curtainColor={this.props.curtainColor}
                                     indicatorColor={this.props.indicatorColor}
                                     selectTextColor={this.props.selectTextColor}
+                                    inactiveTextColor={this.props.inactiveTextColor}
                                     ref={ref => this.wheelRefs[index] = ref}
                                     selectedValue={this.state.wheelSelectedIndexes[index]}
                                     onValueChange={valueIndex => {
@@ -362,6 +365,7 @@ export default class CommonPicker extends Component<IProps, IState> {
                                     {(this.state.wheelDatas[index] || []).map((value, index) => (
                                         <PickerItem
                                             curtainColor={this.props.curtainColor}
+                                            inactiveTextColor={this.props.inactiveTextColor}
                                             indicatorColor={this.props.indicatorColor}
                                             selectTextColor={this.props.selectTextColor}
                                             key={index}
