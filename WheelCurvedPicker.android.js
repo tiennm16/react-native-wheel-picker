@@ -44,7 +44,7 @@ class WheelCurvedPicker extends React.Component {
   }
 
   componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
-    if(prevProps !== this.props) {
+    if (prevProps !== this.props) {
       this.setState(this._stateFromProps(this.props));
     }
   }
@@ -60,7 +60,7 @@ class WheelCurvedPicker extends React.Component {
       if (index === 0 && typeof child.props.value === "number") {
         this.dataIsNumber = true;
       }
-      items.push({ value: child.props.value+'', label: child.props.label });
+      items.push({ value: child.props.value + '', label: child.props.label });
     });
 
     var textSize = props.itemStyle.fontSize;
@@ -85,14 +85,14 @@ class WheelCurvedPicker extends React.Component {
       <WheelCurvedPickerNative
         {...this.props}
         style={[styles.picker, this.props.style]}
-        curtainColor={"#999999"}
+        curtainColor={this.props.curtainColor || "#999999"}
         indicator={true}
-        indicatorColor={"#e1e1e1"}
+        indicatorColor={this.props.indicatorColor || "#e1e1e1"}
         curved={true}
         onValueChange={this._onValueChange}
         data={this.state.items}
         textColor={this.state.textColor || "#333"}
-        selectTextColor={"#000"}
+        selectTextColor={this.props.selectTextColor || "#000"}
         textSize={this.state.textSize}
         selectedIndex={parseInt(this.state.selectedIndex)}
       />
@@ -100,7 +100,7 @@ class WheelCurvedPicker extends React.Component {
   }
 }
 
-WheelCurvedPicker.Item = function ({label, value}) {
+WheelCurvedPicker.Item = function ({ label, value }) {
   // These items don't get rendered directly.
   return null;
 }

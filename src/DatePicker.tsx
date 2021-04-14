@@ -2,7 +2,7 @@
  * 日期/时间选择组件
  */
 
-import React, {FC, PureComponent} from "react";
+import React, { FC, PureComponent } from "react";
 import {
     ColorPropType,
     StyleProp,
@@ -15,7 +15,7 @@ import {
 import moment from "moment";
 import CommonPicker from "./CommonPicker";
 import PickerHeader from './PickerHeader';
-import {IDatePickerProps as IProps} from '../types';
+import { IDatePickerProps as IProps } from '../types';
 
 
 export interface IState {
@@ -24,7 +24,7 @@ export interface IState {
     selectedDateArray: Array<string>;
 }
 
-export default class DatePicker extends PureComponent<IProps,IState>{
+export default class DatePicker extends PureComponent<IProps, IState>{
 
     static defaultProps = {
         showHeader: true,
@@ -39,7 +39,7 @@ export default class DatePicker extends PureComponent<IProps,IState>{
         itemSpace: 20,
     };
 
-    readonly state:IState = {
+    readonly state: IState = {
         pickerData: [],
         selectedDateArray: []
     };
@@ -56,32 +56,32 @@ export default class DatePicker extends PureComponent<IProps,IState>{
 
 
     componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any) {
-        if(this.props.date !== prevProps.date ||
+        if (this.props.date !== prevProps.date ||
             this.props.minDate !== prevProps.minDate ||
             this.props.maxDate !== prevProps.maxDate) {
             this._setDefaultValue();
         }
     }
 
-    _setDefaultValue = (props:IProps = this.props)=>{
+    _setDefaultValue = (props: IProps = this.props) => {
         //必须要给一个默认值，否则默认为当前时间
-        if(!props.date || !moment(props.date).isValid()) {
+        if (!props.date || !moment(props.date).isValid()) {
             this.targetDate = moment().second(0).toDate();
-        }  else {
+        } else {
             this.targetDate = props.date;
         }
         //如果超过范围，则默认显示最小值
-        if(moment(this.targetDate).isBefore(props.minDate)
+        if (moment(this.targetDate).isBefore(props.minDate)
             || moment(this.targetDate).isAfter(props.maxDate)) {
             this.targetDate = moment(props.minDate).toDate();
         }
         const { labelUnit, mode } = props;
         let dataArray = [];
-        let yearWithUnit = moment(this.targetDate).year()+labelUnit.year;
-        let monthWithUnit = (moment(this.targetDate).month()+1)+labelUnit.month;
-        let dateWithUnit = moment(this.targetDate).date()+labelUnit.date;
-        let hourWithUnit = moment(this.targetDate).hour()+labelUnit.hour;
-        let minuteWithUnit = moment(this.targetDate).minute()+labelUnit.minute;
+        let yearWithUnit = moment(this.targetDate).year() + labelUnit.year;
+        let monthWithUnit = (moment(this.targetDate).month() + 1) + labelUnit.month;
+        let dateWithUnit = moment(this.targetDate).date() + labelUnit.date;
+        let hourWithUnit = moment(this.targetDate).hour() + labelUnit.hour;
+        let minuteWithUnit = moment(this.targetDate).minute() + labelUnit.minute;
         switch (props.mode) {
             case 'year':
                 dataArray = [yearWithUnit];
@@ -104,8 +104,8 @@ export default class DatePicker extends PureComponent<IProps,IState>{
         });
     }
 
-    _genData = (props:IProps = this.props) => {
-        if(moment(props.maxDate).isBefore(moment(props.minDate))
+    _genData = (props: IProps = this.props) => {
+        if (moment(props.maxDate).isBefore(moment(props.minDate))
             || !moment(props.minDate).isValid()
             || !moment(props.maxDate).isValid()) {
             console.log('maxDate不能小于minDate')
@@ -113,8 +113,8 @@ export default class DatePicker extends PureComponent<IProps,IState>{
         }
         //年份
         let years = new Set();
-        for (let i = moment(props.minDate).year();i<=moment(props.maxDate).year();i++) {
-            years.add(i+props.labelUnit.year);
+        for (let i = moment(props.minDate).year(); i <= moment(props.maxDate).year(); i++) {
+            years.add(i + props.labelUnit.year);
         }
         let currentYear = moment(this.targetDate).year();
         //0-11
@@ -142,10 +142,10 @@ export default class DatePicker extends PureComponent<IProps,IState>{
         }
     }
 
-    _getMonthesByYear = (props:IProps = this.props, currentYear)=>{
+    _getMonthesByYear = (props: IProps = this.props, currentYear) => {
         //月份(moment取到的月份是0-11)
         let monthes = new Set();
-        if(props.mode !== 'year' && props.mode !== 'time') {
+        if (props.mode !== 'year' && props.mode !== 'time') {
             //默认是12个月
             for (let i = 1; i <= 12; i++) {
                 monthes.add(i + props.labelUnit.month);
@@ -167,9 +167,9 @@ export default class DatePicker extends PureComponent<IProps,IState>{
     }
 
     //currentMonth是0-11
-    _getDaysByYearAndMonth = (props:IProps = this.props, currentYear, currentMonth)=>{
+    _getDaysByYearAndMonth = (props: IProps = this.props, currentYear, currentMonth) => {
         let days = new Set();
-        if(props.mode !== 'year' && props.mode !== 'month' && props.mode !== 'time') {
+        if (props.mode !== 'year' && props.mode !== 'month' && props.mode !== 'time') {
             //获取当前年月的天数
             let daysInMonth = moment().year(currentYear).month(currentMonth).daysInMonth();
             for (let i = 1; i <= daysInMonth; i++) {
@@ -195,8 +195,8 @@ export default class DatePicker extends PureComponent<IProps,IState>{
     }
 
     //生成时间数据，xx时xx分，不支持秒
-    _genTimeData = (prop)=>{
-        let pickerData:any = {};
+    _genTimeData = (prop) => {
+        let pickerData: any = {};
         const [hours, minutes] = [[], []];
 
         for (let i = 0; i < 24; i += 1) {
@@ -210,12 +210,12 @@ export default class DatePicker extends PureComponent<IProps,IState>{
         return pickerData;
     }
 
-    _getNewMonthesAndSelectedMonthByYear = (yearWithUnit, monthWithUnit) =>{
-        const {mode, labelUnit} = this.props;
+    _getNewMonthesAndSelectedMonthByYear = (yearWithUnit, monthWithUnit) => {
+        const { mode, labelUnit } = this.props;
         let nextMonthes = this._getMonthesByYear(this.props, parseInt(yearWithUnit.replace(labelUnit.year, '')));
         //如果更新的月份依旧存在
         let nextMonthArray = Array.from(nextMonthes);
-        if(nextMonthes.has(monthWithUnit)) {
+        if (nextMonthes.has(monthWithUnit)) {
             return [nextMonthArray, monthWithUnit];
         } else {
             //没有，则默认选中第一个月份
@@ -224,21 +224,21 @@ export default class DatePicker extends PureComponent<IProps,IState>{
     }
 
 
-    _getNewDaysAndSelectedDayByYearAndMonth = (yearWithUnit, monthWithUnit, dayWithUnit)=>{
-        const {mode, labelUnit} = this.props;
+    _getNewDaysAndSelectedDayByYearAndMonth = (yearWithUnit, monthWithUnit, dayWithUnit) => {
+        const { mode, labelUnit } = this.props;
         let nextDays = this._getDaysByYearAndMonth(this.props,
             parseInt(yearWithUnit.replace(labelUnit.year, '')),
-            parseInt(monthWithUnit.replace(labelUnit.month, ''))-1);
+            parseInt(monthWithUnit.replace(labelUnit.month, '')) - 1);
         //如果更新的月份依旧存在
         let nextDayArray = Array.from(nextDays);
-        if(nextDays.has(dayWithUnit)) {
+        if (nextDays.has(dayWithUnit)) {
             return [nextDayArray, dayWithUnit];
         } else {
             //原来是28(一个月最少28天)以上，并且新的当月天数小于原来的数字，夸月导致的变更，直接选最后一天
             let lastDayInt = parseInt(dayWithUnit.replace(labelUnit.date, ''));
             //选择最后一天
-            if(lastDayInt>28 && nextDayArray.length<lastDayInt) {
-                return [nextDayArray, nextDayArray[nextDayArray.length-1]];
+            if (lastDayInt > 28 && nextDayArray.length < lastDayInt) {
+                return [nextDayArray, nextDayArray[nextDayArray.length - 1]];
             }
             //否则选择第一天(此时是因为最大值和最小值引起的变更)
             return [nextDayArray, nextDayArray[0]]
@@ -246,8 +246,8 @@ export default class DatePicker extends PureComponent<IProps,IState>{
     }
 
     //根据数组转换成moment对象
-    _dataArrayToMoment = (dataArray: Array<any>)=>{
-        const {mode,labelUnit } = this.props;
+    _dataArrayToMoment = (dataArray: Array<any>) => {
+        const { mode, labelUnit } = this.props;
         let date = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD');
         switch (mode) {
             case 'year':
@@ -255,11 +255,11 @@ export default class DatePicker extends PureComponent<IProps,IState>{
                 break;
             case 'month':
                 date.year(dataArray[0].replace(labelUnit.year, ''))
-                    .month(parseInt(dataArray[1].replace(labelUnit.month, ''))-1);
+                    .month(parseInt(dataArray[1].replace(labelUnit.month, '')) - 1);
                 break;
             case 'date':
                 date.year(dataArray[0].replace(labelUnit.year, ''))
-                    .month(parseInt(dataArray[1].replace(labelUnit.month, ''))-1)
+                    .month(parseInt(dataArray[1].replace(labelUnit.month, '')) - 1)
                     .date(dataArray[2].replace(labelUnit.date, ''));
                 break;
             case 'time':
@@ -268,7 +268,7 @@ export default class DatePicker extends PureComponent<IProps,IState>{
                 break;
             case 'datetime':
                 date.year(dataArray[0].replace(labelUnit.year, ''))
-                    .month(parseInt(dataArray[1].replace(labelUnit.month, ''))-1)
+                    .month(parseInt(dataArray[1].replace(labelUnit.month, '')) - 1)
                     .date(dataArray[2].replace(labelUnit.date, ''))
                     .hour(dataArray[3].replace(labelUnit.hour, ''))
                     .minute(dataArray[4].replace(labelUnit.minute, ''));
@@ -277,8 +277,8 @@ export default class DatePicker extends PureComponent<IProps,IState>{
         return date;
     }
 
-    _onDateChange = (value, wheelIndex)=>{
-        const {mode, labelUnit} = this.props;
+    _onDateChange = (value, wheelIndex) => {
+        const { mode, labelUnit } = this.props;
         //虽然值改变了，但是实际选中的值可能会变化
         let nextValue = [...value];
         let nextPickerData = [...this.state.pickerData];
@@ -290,7 +290,7 @@ export default class DatePicker extends PureComponent<IProps,IState>{
             case 'month':
                 //改变的是年份
                 //可能会根据最大最小时间影响月份的数据
-                if(wheelIndex == 0) {
+                if (wheelIndex == 0) {
                     const [monthes, newMonthWithUnit] = this._getNewMonthesAndSelectedMonthByYear(value[0], value[1]);
                     nextValue[1] = newMonthWithUnit;
                     nextPickerData[1] = monthes;
@@ -301,18 +301,18 @@ export default class DatePicker extends PureComponent<IProps,IState>{
             case 'date':
             //必须是date在前，time在后的形式才能合并
             case 'datetime':
-                if(wheelIndex === 0) {
+                if (wheelIndex === 0) {
                     const [monthes, newMonthWithUnit] = this._getNewMonthesAndSelectedMonthByYear(value[0], value[1]);
                     const [days, newDayWithUnit] = this._getNewDaysAndSelectedDayByYearAndMonth(value[0], newMonthWithUnit, value[2]);
                     nextValue[1] = newMonthWithUnit;
                     nextValue[2] = newDayWithUnit;
                     nextPickerData[1] = monthes;
                     nextPickerData[2] = days;
-                } else if(wheelIndex === 1) {
+                } else if (wheelIndex === 1) {
                     const [days, newDayWithUnit] = this._getNewDaysAndSelectedDayByYearAndMonth(value[0], value[1], value[2]);
                     nextValue[2] = newDayWithUnit;
                     nextPickerData[2] = days;
-                } else if(wheelIndex === 2) {
+                } else if (wheelIndex === 2) {
                     //没啥影响
                 }
                 break;
@@ -323,19 +323,19 @@ export default class DatePicker extends PureComponent<IProps,IState>{
             pickerData: nextPickerData
         });
         this.targetDate = nextDate.toDate();
-        this.props.onDateChange&&this.props.onDateChange(nextDate.toDate());
+        this.props.onDateChange && this.props.onDateChange(nextDate.toDate());
     }
 
-    render () {
-        const {mode, labelUnit, isModal, modalProps, modalVisible, onModalVisibleChange} = this.props;
+    render() {
+        const { mode, labelUnit, isModal, modalProps, modalVisible, onModalVisibleChange } = this.props;
         const { width: deviceWidth } = Dimensions.get('window');
         const pickerView = (
-            <View style={[{minHeight:240+(this.props.showHeader?40:0)},this.props.style]}>
+            <View style={[{ minHeight: 240 + (this.props.showHeader ? 40 : 0) }, this.props.style]}>
                 {this.props.showHeader ?
                     <PickerHeader
                         {...this.props}
-                        onPickerConfirm={()=>{
-                            this.props.onPickerConfirm&&this.props.onPickerConfirm(this.targetDate);
+                        onPickerConfirm={() => {
+                            this.props.onPickerConfirm && this.props.onPickerConfirm(this.targetDate);
                         }}
                     />
                     :
@@ -343,7 +343,10 @@ export default class DatePicker extends PureComponent<IProps,IState>{
                 }
                 {this.state.pickerData.length > 0 ?
                     <CommonPicker
-                        style={{width: deviceWidth}}
+                        curtainColor={this.props.curtainColor}
+                        indicatorColor={this.props.indicatorColor}
+                        selectTextColor={this.props.selectTextColor}
+                        style={{ width: deviceWidth }}
                         pickerWrapperStyle={this.props.pickerWrapperStyle}
                         showHeader={false}
                         pickerData={this.state.pickerData}
@@ -353,25 +356,25 @@ export default class DatePicker extends PureComponent<IProps,IState>{
                         }}
                     />
                     :
-                    <View style={[{flex:1, backgroundColor:'white', justifyContent:'center', alignItems:'center'}, this.props.pickerWrapperStyle]}>
-                        <Text style={{fontSize: 16, color:'#999999'}}>数据异常,请检查参数</Text>
+                    <View style={[{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }, this.props.pickerWrapperStyle]}>
+                        <Text style={{ fontSize: 16, color: '#999999' }}>数据异常,请检查参数</Text>
                     </View>
                 }
             </View>
         );
-        if(isModal) {
+        if (isModal) {
             const Modal = require('react-native-modal').default;
-            if(Modal) {
+            if (Modal) {
                 return (
                     <Modal
-                        onBackdropPress={()=>{
-                            onModalVisibleChange&&onModalVisibleChange(false);
+                        onBackdropPress={() => {
+                            onModalVisibleChange && onModalVisibleChange(false);
                         }}
-                        onBackButtonPress={()=>{
-                            onModalVisibleChange&&onModalVisibleChange(false);
+                        onBackButtonPress={() => {
+                            onModalVisibleChange && onModalVisibleChange(false);
                         }}
-                        {...(modalProps||{})}
-                        style={[{flex:1, justifyContent:'flex-end',margin: 0}, (modalProps||{style: undefined}).style]}
+                        {...(modalProps || {})}
+                        style={[{ flex: 1, justifyContent: 'flex-end', margin: 0 }, (modalProps || { style: undefined }).style]}
                         isVisible={modalVisible}
                     >
                         {pickerView}
